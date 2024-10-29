@@ -1,9 +1,25 @@
 ---
+const currentPath = Astro.url.pathname;
+const isHomePage = currentPath === "/" || currentPath === "/index.html";
+
 const menuItems = [
-    { text: "Our Companies", href: "#companies", hasSubmenu: true },
-    { text: "About", href: "#about" },
-    { text: "Our Process", href: "#process" },
-    { text: "Contact", href: "#contact" },
+    {
+        text: "Our Companies",
+        href: isHomePage ? "#companies" : "/#companies",
+        hasSubmenu: true,
+    },
+    {
+        text: "About",
+        href: isHomePage ? "#about" : "/#about",
+    },
+    {
+        text: "Our Process",
+        href: isHomePage ? "#process" : "/#process",
+    },
+    {
+        text: "Contact",
+        href: isHomePage ? "#contact" : "/#contact",
+    },
 ];
 
 import { companies } from "../data/companies";
@@ -28,6 +44,7 @@ import { companies } from "../data/companies";
                             <a
                                 href={item.href}
                                 class="text-sm font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
+                                data-astro-reload={!isHomePage}
                             >
                                 {item.text}
                             </a>
@@ -86,6 +103,7 @@ import { companies } from "../data/companies";
                         <a
                             href={item.href}
                             class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800 rounded-md"
+                            data-astro-reload={!isHomePage}
                         >
                             {item.text}
                         </a>
@@ -127,6 +145,35 @@ import { companies } from "../data/companies";
             mobileMenu?.classList.add("hidden");
         }
     });
+
+    // Handle smooth scrolling only on homepage
+    if (
+        window.location.pathname === "/" ||
+        window.location.pathname === "/index.html"
+    ) {
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+            anchor.addEventListener("click", function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute("href");
+                const target = document.querySelector(targetId);
+
+                if (target) {
+                    const header = document.querySelector("header");
+                    const headerHeight = header?.offsetHeight || 64; // Get actual header height
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition =
+                        elementPosition +
+                        window.pageYOffset -
+                        (headerHeight - 1); // Subtract 1px to eliminate gap
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth",
+                    });
+                }
+            });
+        });
+    }
 
     // Close mobile menu when clicking a link
     const mobileMenuLinks = mobileMenu?.querySelectorAll("a");
