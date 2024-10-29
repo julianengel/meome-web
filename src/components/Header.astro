@@ -4,8 +4,12 @@ const isHomePage = currentPath === "/" || currentPath === "/index.html";
 
 const menuItems = [
     {
+        text: "Our Portfolio",
+        href: isHomePage ? "#projects" : "/#projects",
+    },
+    {
         text: "Our Companies",
-        href: isHomePage ? "#companies" : "/#companies",
+        href: isHomePage ? "#projects" : "/#projects",
         hasSubmenu: true,
     },
     {
@@ -22,7 +26,7 @@ const menuItems = [
     },
 ];
 
-import { companies } from "../data/companies";
+import { projects } from "../data/projects";
 ---
 
 <header
@@ -52,14 +56,21 @@ import { companies } from "../data/companies";
                             {item.hasSubmenu && (
                                 <div class="absolute left-0 mt-2 w-60 bg-white dark:bg-gray-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                                     <div class="p-4 space-y-3">
-                                        {companies.map((company) => (
-                                            <a
-                                                href={`/companies/${company.id}`}
-                                                class="block text-sm text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
-                                            >
-                                                {company.name}
-                                            </a>
-                                        ))}
+                                        {projects
+                                            .filter((project) =>
+                                                [
+                                                    "Invested",
+                                                    "Founded",
+                                                ].includes(project.type),
+                                            )
+                                            .map((company) => (
+                                                <a
+                                                    href={`/projects/${company.id}`}
+                                                    class="block text-sm text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                                                >
+                                                    {company.name}
+                                                </a>
+                                            ))}
                                     </div>
                                 </div>
                             )}
@@ -110,9 +121,9 @@ import { companies } from "../data/companies";
 
                         {item.hasSubmenu && (
                             <div class="pl-6 py-2 space-y-2">
-                                {companies.map((company) => (
+                                {projects.map((company) => (
                                     <a
-                                        href={`/companies/${company.id}`}
+                                        href={`/projects/${company.id}`}
                                         class="block px-3 py-1 text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
                                     >
                                         {company.name}

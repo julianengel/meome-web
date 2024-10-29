@@ -1,16 +1,16 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
-import { companies } from "../../data/companies";
+import { projects } from "../../data/projects";
 
 export function getStaticPaths() {
-    return companies.map((company) => ({
+    return projects.map((company) => ({
         params: { id: company.id },
         props: {
             company,
-            suggestions: companies
+            suggestions: projects
                 .filter((c) => c.id !== company.id)
-                .slice(0, 3), // Get 3 other companies
+                .slice(0, 3), // Get 3 other projects
         },
     }));
 }
@@ -25,7 +25,7 @@ const { company, suggestions } = Astro.props;
         <!-- Subtle return link at the top -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <a
-                href="/#companies"
+                href="/#projects"
                 class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
             >
                 <svg
@@ -203,20 +203,20 @@ const { company, suggestions } = Astro.props;
                 )
             }
 
-            <!-- More Companies -->
+            <!-- More projects -->
             <div
                 class="mt-24 border-t border-gray-200 dark:border-gray-700 pt-16"
             >
                 <h2
                     class="text-2xl font-bold text-gray-900 dark:text-white mb-8"
                 >
-                    More Companies
+                    More projects
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {
                         suggestions.map((suggestion) => (
                             <a
-                                href={`/companies/${suggestion.id}`}
+                                href={`/projects/${suggestion.id}`}
                                 class="group bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden"
                             >
                                 <div class="p-6">
