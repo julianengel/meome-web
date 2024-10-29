@@ -1,0 +1,244 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import { companies } from "../../data/companies";
+
+export function getStaticPaths() {
+    return companies.map((company) => ({
+        params: { id: company.id },
+        props: {
+            company,
+            suggestions: companies
+                .filter((c) => c.id !== company.id)
+                .slice(0, 3), // Get 3 other companies
+        },
+    }));
+}
+
+const { company, suggestions } = Astro.props;
+---
+
+<Layout title={`${company.name} | Meome Portfolio`}>
+    <Header />
+
+    <main class="pt-20">
+        <!-- Subtle return link at the top -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <a
+                href="/#companies"
+                class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+            >
+                <svg
+                    class="h-4 w-4 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Return to Overview
+            </a>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="bg-gray-50 dark:bg-gray-800/50 py-12 sm:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row items-start gap-12">
+                    <!-- Logo and Status -->
+                    <div class="w-full lg:w-1/3">
+                        <div
+                            class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm"
+                        >
+                            <div
+                                class="h-32 flex items-center justify-center mb-6"
+                            >
+                                <img
+                                    src={company.logo}
+                                    alt={`${company.name} logo`}
+                                    class="h-full w-auto object-contain"
+                                />
+                            </div>
+                            <div class="flex flex-wrap gap-3">
+                                <span
+                                    class="inline-flex items-center rounded-full bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-xs font-medium text-indigo-700 dark:text-indigo-400"
+                                >
+                                    {company.status}
+                                </span>
+                                <span
+                                    class="inline-flex items-center rounded-full bg-gray-100 dark:bg-gray-700 px-3 py-1 text-xs font-medium text-gray-800 dark:text-gray-200"
+                                >
+                                    {company.industry}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Company Info -->
+                    <div class="w-full lg:w-2/3">
+                        <h1
+                            class="text-4xl font-bold text-gray-900 dark:text-white mb-4"
+                        >
+                            {company.name}
+                        </h1>
+                        <p
+                            class="text-xl text-gray-600 dark:text-gray-300 mb-8"
+                        >
+                            {company.description}
+                        </p>
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            <div>
+                                <h3
+                                    class="text-sm font-medium text-gray-500 dark:text-gray-400"
+                                >
+                                    Founded
+                                </h3>
+                                <p
+                                    class="mt-2 text-base text-gray-900 dark:text-white"
+                                >
+                                    {company.founded}
+                                </p>
+                            </div>
+                            <div>
+                                <h3
+                                    class="text-sm font-medium text-gray-500 dark:text-gray-400"
+                                >
+                                    Team Size
+                                </h3>
+                                <p
+                                    class="mt-2 text-base text-gray-900 dark:text-white"
+                                >
+                                    {company.team?.size} people
+                                </p>
+                            </div>
+                            <div class="col-span-2">
+                                <h3
+                                    class="text-sm font-medium text-gray-500 dark:text-gray-400"
+                                >
+                                    Locations
+                                </h3>
+                                <p
+                                    class="mt-2 text-base text-gray-900 dark:text-white"
+                                >
+                                    {company.team?.locations.join(", ")}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Content -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- About -->
+                <div>
+                    <h2
+                        class="text-2xl font-bold text-gray-900 dark:text-white mb-6"
+                    >
+                        About
+                    </h2>
+                    <div class="prose dark:prose-invert max-w-none">
+                        <p class="text-gray-600 dark:text-gray-300">
+                            {company.longDescription}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Impact -->
+                <div>
+                    <h2
+                        class="text-2xl font-bold text-gray-900 dark:text-white mb-6"
+                    >
+                        Impact
+                    </h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        {
+                            company.impact?.map((item) => (
+                                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
+                                    <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
+                                        {item.value}
+                                    </h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                                        {item.metric}
+                                    </p>
+                                </div>
+                            ))
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visit Website -->
+            {
+                company.website && (
+                    <div class="mt-12 text-center">
+                        <a
+                            href={company.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center px-6 py-3 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition-colors"
+                        >
+                            Visit Website
+                            <svg
+                                class="ml-2 h-5 w-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                />
+                            </svg>
+                        </a>
+                    </div>
+                )
+            }
+
+            <!-- More Companies -->
+            <div
+                class="mt-24 border-t border-gray-200 dark:border-gray-700 pt-16"
+            >
+                <h2
+                    class="text-2xl font-bold text-gray-900 dark:text-white mb-8"
+                >
+                    More Companies
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {
+                        suggestions.map((suggestion) => (
+                            <a
+                                href={`/companies/${suggestion.id}`}
+                                class="group bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden"
+                            >
+                                <div class="p-6">
+                                    <div class="h-16 flex items-center justify-center mb-4">
+                                        <img
+                                            src={suggestion.logo}
+                                            alt={`${suggestion.name} logo`}
+                                            class="h-full w-auto object-contain"
+                                        />
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                        {suggestion.name}
+                                    </h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
+                                        {suggestion.description}
+                                    </p>
+                                </div>
+                            </a>
+                        ))
+                    }
+                </div>
+            </div>
+        </div>
+    </main>
+</Layout>

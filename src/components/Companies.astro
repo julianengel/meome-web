@@ -1,30 +1,5 @@
 ---
-const companies = [
-    {
-        name: "TechVenture",
-        description:
-            "AI-powered business intelligence platform helping SMEs make data-driven decisions.",
-        status: "Growing",
-        metrics: "500k+ monthly active users",
-        image: "/companies/techventure.jpg",
-    },
-    {
-        name: "GreenFlow",
-        description:
-            "Sustainable logistics solution reducing carbon footprint in last-mile delivery.",
-        status: "Scaling",
-        metrics: "45% CO2 reduction achieved",
-        image: "/companies/greenflow.jpg",
-    },
-    {
-        name: "HealthBridge",
-        description:
-            "Telemedicine platform connecting patients with mental health professionals.",
-        status: "Early Growth",
-        metrics: "100k+ consultations delivered",
-        image: "/companies/healthbridge.jpg",
-    },
-];
+import { companies } from "../data/companies";
 ---
 
 <section id="companies" class="py-24 bg-white dark:bg-gray-900">
@@ -40,83 +15,177 @@ const companies = [
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {
-                companies.map((company, index) => (
-                    <div
-                        class="relative group bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden slide-in"
-                        style={`animation-delay: ${index * 100}ms`}
-                    >
-                        <div class="aspect-w-16 aspect-h-9 bg-gray-200 dark:bg-gray-700">
-                            <img
-                                src={company.image}
-                                alt={company.name}
-                                class="object-cover"
-                                width="640"
-                                height="360"
-                            />
-                        </div>
+        <div class="relative">
+            <!-- Scroll Container with peek effect -->
+            <div class="px-4 -mx-4 sm:px-0 sm:mx-0">
+                <!-- Negative margin for full bleed on mobile -->
+                <div
+                    id="companies-scroll"
+                    class="flex space-x-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth pb-8"
+                >
+                    {
+                        companies.map((company, index) => (
+                            <div
+                                class="flex-shrink-0 w-[85%] sm:w-[calc(33.333%-1rem)] first:pl-8 last:pr-8 snap-center slide-in"
+                                style={`animation-delay: ${index * 150}ms`}
+                            >
+                                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden h-full">
+                                    <div class="p-6">
+                                        <div class="h-16 mb-6 flex items-center justify-center bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                                            <img
+                                                src={company.logo}
+                                                alt={`${company.name} logo`}
+                                                class="h-full w-auto object-contain"
+                                            />
+                                        </div>
 
-                        <div class="p-6">
-                            <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                    {company.name}
-                                </h3>
-                                <span class="inline-flex items-center rounded-full bg-green-50 dark:bg-green-900/30 px-3 py-1 text-xs font-medium text-green-700 dark:text-green-400">
-                                    {company.status}
-                                </span>
-                            </div>
+                                        <div class="flex items-center justify-between mb-4">
+                                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                                {company.name}
+                                            </h3>
+                                            <span class="inline-flex items-center rounded-full bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 text-xs font-medium text-indigo-700 dark:text-indigo-400">
+                                                {company.status}
+                                            </span>
+                                        </div>
 
-                            <p class="text-gray-600 dark:text-gray-300 mb-4">
-                                {company.description}
-                            </p>
+                                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                                            {company.description}
+                                        </p>
 
-                            <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
-                                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                                    <svg
-                                        class="h-5 w-5 mr-2"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                                        />
-                                    </svg>
-                                    {company.metrics}
+                                        <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                                <svg
+                                                    class="h-5 w-5 mr-2"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                                                    />
+                                                </svg>
+                                                {company.metrics}
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-6">
+                                            <a
+                                                href={`/companies/${company.id}`}
+                                                class="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300"
+                                            >
+                                                Learn more
+                                                <svg
+                                                    class="ml-2 h-4 w-4"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M9 5l7 7-7 7"
+                                                    />
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        ))
+                    }
+                </div>
+            </div>
 
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div class="absolute bottom-6 left-6 right-6">
-                                <a
-                                    href="#"
-                                    class="inline-flex items-center text-white font-medium"
-                                >
-                                    Learn more
-                                    <svg
-                                        class="ml-2 h-5 w-5"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                        />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                ))
-            }
+            <!-- Navigation Arrows (always visible) -->
+            <div class="flex justify-center mt-8 space-x-4">
+                <button
+                    id="scroll-left"
+                    class="p-2 rounded-full bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                    aria-label="Scroll left"
+                >
+                    <svg
+                        class="h-6 w-6 text-gray-900 dark:text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+                <button
+                    id="scroll-right"
+                    class="p-2 rounded-full bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm"
+                    aria-label="Scroll right"
+                >
+                    <svg
+                        class="h-6 w-6 text-gray-900 dark:text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 </section>
+
+<script>
+    const scrollContainer = document.getElementById("companies-scroll");
+    const scrollLeftBtn = document.getElementById("scroll-left");
+    const scrollRightBtn = document.getElementById("scroll-right");
+
+    if (scrollContainer && scrollLeftBtn && scrollRightBtn) {
+        const scroll = (direction: "left" | "right") => {
+            const cardWidth =
+                scrollContainer.querySelector("div")?.offsetWidth || 0;
+            const scrollAmount = direction === "left" ? -cardWidth : cardWidth;
+
+            scrollContainer.scrollBy({
+                left: scrollAmount,
+                behavior: "smooth",
+            });
+        };
+
+        scrollLeftBtn.addEventListener("click", () => scroll("left"));
+        scrollRightBtn.addEventListener("click", () => scroll("right"));
+
+        // Update button states based on scroll position
+        const updateButtonStates = () => {
+            const isAtStart = scrollContainer.scrollLeft === 0;
+            const isAtEnd =
+                scrollContainer.scrollLeft + scrollContainer.clientWidth >=
+                scrollContainer.scrollWidth - 10; // Small buffer for rounding errors
+
+            scrollLeftBtn.style.opacity = isAtStart ? "0.5" : "1";
+            scrollRightBtn.style.opacity = isAtEnd ? "0.5" : "1";
+        };
+
+        scrollContainer.addEventListener("scroll", updateButtonStates);
+        window.addEventListener("resize", updateButtonStates);
+        updateButtonStates(); // Initial check
+    }
+</script>
+
+<style>
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+</style>
