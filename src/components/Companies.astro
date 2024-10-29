@@ -1,0 +1,122 @@
+---
+const companies = [
+    {
+        name: "TechVenture",
+        description:
+            "AI-powered business intelligence platform helping SMEs make data-driven decisions.",
+        status: "Growing",
+        metrics: "500k+ monthly active users",
+        image: "/companies/techventure.jpg",
+    },
+    {
+        name: "GreenFlow",
+        description:
+            "Sustainable logistics solution reducing carbon footprint in last-mile delivery.",
+        status: "Scaling",
+        metrics: "45% CO2 reduction achieved",
+        image: "/companies/greenflow.jpg",
+    },
+    {
+        name: "HealthBridge",
+        description:
+            "Telemedicine platform connecting patients with mental health professionals.",
+        status: "Early Growth",
+        metrics: "100k+ consultations delivered",
+        image: "/companies/healthbridge.jpg",
+    },
+];
+---
+
+<section id="companies" class="py-24 bg-white dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 fade-in">
+            <h2
+                class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
+            >
+                Our Companies
+            </h2>
+            <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+                Building and scaling ventures that create meaningful impact.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {
+                companies.map((company, index) => (
+                    <div
+                        class="relative group bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden slide-in"
+                        style={`animation-delay: ${index * 100}ms`}
+                    >
+                        <div class="aspect-w-16 aspect-h-9 bg-gray-200 dark:bg-gray-700">
+                            <img
+                                src={company.image}
+                                alt={company.name}
+                                class="object-cover"
+                                width="640"
+                                height="360"
+                            />
+                        </div>
+
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                    {company.name}
+                                </h3>
+                                <span class="inline-flex items-center rounded-full bg-green-50 dark:bg-green-900/30 px-3 py-1 text-xs font-medium text-green-700 dark:text-green-400">
+                                    {company.status}
+                                </span>
+                            </div>
+
+                            <p class="text-gray-600 dark:text-gray-300 mb-4">
+                                {company.description}
+                            </p>
+
+                            <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                    <svg
+                                        class="h-5 w-5 mr-2"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                                        />
+                                    </svg>
+                                    {company.metrics}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-6 left-6 right-6">
+                                <a
+                                    href="#"
+                                    class="inline-flex items-center text-white font-medium"
+                                >
+                                    Learn more
+                                    <svg
+                                        class="ml-2 h-5 w-5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                        />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</section>
