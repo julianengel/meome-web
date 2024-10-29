@@ -28,7 +28,7 @@ export const projects: Project[] = [
         id: 'nutrified',
         name: 'Nutrified',
         type: 'Brand',
-        company: 'Mineo',
+        company: 'Mineo Minerals',
         description: 'Sustainable logistics solution reducing carbon footprint in last-mile delivery.',
         longDescription: `GreenFlow is transforming last-mile delivery with our innovative approach to 
     sustainable logistics. By combining route optimization, electric vehicles, and carbon offsetting, 
@@ -49,6 +49,7 @@ export const projects: Project[] = [
         id: 'thecodeerogroup',
         name: 'The Codeero Group',
         type: 'Founded',
+        company: 'Startup',
         description: 'AI-powered business intelligence platform helping SMEs make data-driven decisions.',
         longDescription: `TechVenture is revolutionizing how small and medium enterprises approach data analytics. 
     Our AI-powered platform democratizes access to sophisticated business intelligence tools, making them 
@@ -69,6 +70,7 @@ export const projects: Project[] = [
         id: 'tinypaws',
         name: 'Tiny Paws',
         type: 'Brand',
+        company: 'Nutrified',
         description: 'Telemedicine platform connecting patients with mental health professionals.',
         longDescription: `HealthBridge is making mental healthcare accessible to everyone through our 
     innovative telemedicine platform. We're bridging the gap between patients and mental health 
@@ -89,6 +91,7 @@ export const projects: Project[] = [
         id: 'recommended.by',
         name: 'recommended.by',
         type: 'Project',
+        company: 'Experiments',
         description: 'Next-generation data pipeline orchestration for modern data teams.',
         longDescription: `DataFlow is revolutionizing how data teams work with our intelligent pipeline 
     orchestration platform. We're making data workflows more reliable, observable, and efficient 
@@ -97,8 +100,8 @@ export const projects: Project[] = [
         metrics: '250k+ pipelines automated',
         logo: '/companies/dataflow-logo.svg',
         website: 'https://dataflow.dev',
-        industry: 'Data Infrastructure',
-        founded: '2024',
+        industry: 'SaaS',
+        founded: '2023',
         impact: [
             { metric: 'Pipelines Automated', value: '250k+' },
             { metric: 'Data Processing Time', value: '-65%' },
@@ -109,6 +112,7 @@ export const projects: Project[] = [
         id: 'mineo',
         name: 'Mineo Minerals',
         type: 'Invested',
+        company: 'Startup',
         description: 'Next-generation data pipeline orchestration for modern data teams.',
         longDescription: `DataFlow is revolutionizing how data teams work with our intelligent pipeline 
     orchestration platform. We're making data workflows more reliable, observable, and efficient 
@@ -117,7 +121,7 @@ export const projects: Project[] = [
         metrics: '250k+ pipelines automated',
         logo: '/companies/dataflow-logo.svg',
         website: 'https://dataflow.dev',
-        industry: 'Data Infrastructure',
+        industry: 'Research & Development',
         founded: '2024',
         impact: [
             { metric: 'Pipelines Automated', value: '250k+' },
@@ -129,6 +133,28 @@ export const projects: Project[] = [
         id: 'domain-stories',
         name: 'Domain  Stories',
         type: 'Project',
+        company: 'Experiments',
+        description: 'Next-generation data pipeline orchestration for modern data teams.',
+        longDescription: `DataFlow is revolutionizing how data teams work with our intelligent pipeline 
+    orchestration platform. We're making data workflows more reliable, observable, and efficient 
+    through automation and AI-powered optimization.`,
+        status: 'MVP',
+        metrics: '250k+ pipelines automated',
+        logo: '/companies/dataflow-logo.svg',
+        website: 'https://dataflow.dev',
+        industry: 'Blog',
+        founded: '2024',
+        impact: [
+            { metric: 'Pipelines Automated', value: '250k+' },
+            { metric: 'Data Processing Time', value: '-65%' },
+            { metric: 'Engineer Productivity', value: '+40%' }
+        ]
+    },
+    {
+        id: 'pawdcast',
+        name: 'The Pawdcast',
+        type: 'Brand',
+        company: 'Nutrified',
         description: 'Next-generation data pipeline orchestration for modern data teams.',
         longDescription: `DataFlow is revolutionizing how data teams work with our intelligent pipeline 
     orchestration platform. We're making data workflows more reliable, observable, and efficient 
@@ -146,9 +172,10 @@ export const projects: Project[] = [
         ]
     },
     {
-        id: 'pawdcast',
-        name: 'The Pawdcast',
-        type: 'Brand',
+        id: 'domain-details',
+        name: 'DomainDetails.io',
+        type: 'Project',
+        company: 'Experiments',
         description: 'Next-generation data pipeline orchestration for modern data teams.',
         longDescription: `DataFlow is revolutionizing how data teams work with our intelligent pipeline 
     orchestration platform. We're making data workflows more reliable, observable, and efficient 
@@ -157,12 +184,33 @@ export const projects: Project[] = [
         metrics: '250k+ pipelines automated',
         logo: '/companies/dataflow-logo.svg',
         website: 'https://dataflow.dev',
-        industry: 'Data Infrastructure',
+        industry: 'SaaA',
         founded: '2024',
         impact: [
             { metric: 'Pipelines Automated', value: '250k+' },
             { metric: 'Data Processing Time', value: '-65%' },
             { metric: 'Engineer Productivity', value: '+40%' }
+        ]
+    },
+    {
+        id: 'ampawssadors',
+        name: 'Ampawssadors',
+        type: 'Brand',
+        company: 'Nutrified',
+        description: 'Telemedicine platform connecting patients with mental health professionals.',
+        longDescription: `HealthBridge is making mental healthcare accessible to everyone through our 
+    innovative telemedicine platform. We're bridging the gap between patients and mental health 
+    professionals, ensuring quality care is just a click away.`,
+        status: 'MVP',
+        metrics: '100k+ consultations delivered',
+        logo: '/companies/healthbridge-logo.svg',
+        website: 'https://healthbridge.care',
+        industry: 'Healthcare',
+        founded: '2023',
+        impact: [
+            { metric: 'Consultations', value: '100k+' },
+            { metric: 'Patient Satisfaction', value: '4.8/5' },
+            { metric: 'Average Wait Time', value: '< 24h' }
         ]
     }
 ];
