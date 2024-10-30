@@ -12,6 +12,7 @@ const {
 } = Astro.props;
 ---
 
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
@@ -40,11 +41,11 @@ const {
 		<!-- GSAP for animations -->
 		<script
 			is:inline
-			src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+			src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
 		></script>
 		<script
 			is:inline
-			src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+			src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"
 		></script>
 		<script
 			defer
@@ -54,15 +55,14 @@ const {
 	<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
 		<slot />
 
-		<script>
-			// Initialize GSAP animations
-			window.gsap.registerPlugin(window.ScrollTrigger);
-
+		<script is:inline>
 			function initAnimations() {
+				if (typeof gsap === "undefined") return;
+
+				gsap.registerPlugin(ScrollTrigger);
+
 				// Fade in animations for sections
-				const fadeInElements = document.querySelectorAll(".fade-in");
-				fadeInElements.forEach((element) => {
-					// Check if element is in the companies section
+				document.querySelectorAll(".fade-in").forEach((element) => {
 					const isCompaniesSection =
 						element.closest("#companies") !== null;
 
@@ -76,15 +76,16 @@ const {
 							toggleActions: isCompaniesSection
 								? "play none none none"
 								: "play none none reverse",
-							once: isCompaniesSection, // Only once for companies section
+							once: isCompaniesSection,
 						},
 					});
 				});
 
 				// Slide in animations for cards
-				const slideInElements = document.querySelectorAll(".slide-in");
-				slideInElements.forEach((element, index) => {
-					// Check if element is in the companies section
+				const slideElements = Array.from(
+					document.querySelectorAll(".slide-in"),
+				);
+				slideElements.forEach((element, index) => {
 					const isCompaniesSection =
 						element.closest("#companies") !== null;
 
@@ -92,21 +93,22 @@ const {
 						x: -50,
 						opacity: 0,
 						duration: 0.8,
-						delay: isCompaniesSection ? index * 0.1 : 0, // Only stagger in companies section
+						delay: isCompaniesSection ? index * 0.1 : 0,
 						scrollTrigger: {
 							trigger: element,
 							start: "top 85%",
+							end: "bottom center",
 							toggleActions: isCompaniesSection
 								? "play none none none"
 								: "play none none reverse",
-							once: isCompaniesSection, // Only once for companies section
+							once: isCompaniesSection,
 						},
 					});
 				});
 			}
 
 			// Run animations on initial load
-			initAnimations();
+			document.addEventListener("DOMContentLoaded", initAnimations);
 
 			// Re-run animations after view transitions
 			document.addEventListener("astro:after-swap", initAnimations);
@@ -115,15 +117,16 @@ const {
 			document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
 				anchor.addEventListener("click", function (e) {
 					e.preventDefault();
-					const target = document.querySelector(
-						this.getAttribute("href"),
-					);
+					const href = this.getAttribute("href");
+					if (!href) return;
+
+					const target = document.querySelector(href);
 					if (target) {
 						const headerOffset = 80;
 						const elementPosition =
 							target.getBoundingClientRect().top;
 						const offsetPosition =
-							elementPosition + window.pageYOffset - headerOffset;
+							elementPosition + window.scrollY - headerOffset;
 
 						window.scrollTo({
 							top: offsetPosition,

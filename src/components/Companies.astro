@@ -38,7 +38,9 @@ const getTagColor = (type: (typeof projects)[number]["type"]) => {
         </div>
 
         <!-- Filter Buttons -->
-        <div class="mb-8 flex flex-wrap items-center justify-center gap-3">
+        <div
+            class="mb-8 flex flex-wrap items-center justify-center gap-3 fade-in"
+        >
             <svg
                 class="h-5 w-5 text-gray-400 mr-2"
                 fill="none"
@@ -69,6 +71,7 @@ const getTagColor = (type: (typeof projects)[number]["type"]) => {
             }
         </div>
 
+        <!-- Projects Grid -->
         <div class="relative">
             <div class="px-4 -mx-4 sm:px-0 sm:mx-0">
                 <div
@@ -76,35 +79,35 @@ const getTagColor = (type: (typeof projects)[number]["type"]) => {
                     class="flex space-x-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth pb-8"
                 >
                     {
-                        projects.map((company, index) => (
+                        projects.map((project, index) => (
                             <div
-                                data-type={company.type}
+                                data-type={project.type}
                                 class="company-card flex-shrink-0 w-[85%] sm:w-[calc(33.333%-1rem)] first:pl-8 last:pr-8 snap-center slide-in"
-                                style={`animation-delay: ${index * 150}ms`}
+                                data-index={index}
                             >
                                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden h-full">
                                     <div class="p-6">
                                         <div class="h-16 mb-6 flex items-center justify-center bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
                                             <img
-                                                src={company.logo}
-                                                alt={`${company.name} logo`}
+                                                src={project.logo}
+                                                alt={`${project.name} logo`}
                                                 class="h-full w-auto object-contain"
                                             />
                                         </div>
 
                                         <div class="flex items-center justify-between mb-4">
                                             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                                {company.name}
+                                                {project.name}
                                             </h3>
                                             <span
-                                                class={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${getTagColor(company.type)}`}
+                                                class={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${getTagColor(project.type)}`}
                                             >
-                                                {company.type}
+                                                {project.type}
                                             </span>
                                         </div>
 
                                         <p class="text-gray-600 dark:text-gray-300 mb-4">
-                                            {company.description}
+                                            {project.description}
                                         </p>
 
                                         <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -122,7 +125,7 @@ const getTagColor = (type: (typeof projects)[number]["type"]) => {
                                                         d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                                                     />
                                                 </svg>
-                                                {company.industry}
+                                                {project.industry}
                                             </div>
                                             <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-2">
                                                 <svg
@@ -138,13 +141,13 @@ const getTagColor = (type: (typeof projects)[number]["type"]) => {
                                                         d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                                                     />
                                                 </svg>
-                                                {company.company}
+                                                {project.company}
                                             </div>
                                         </div>
 
                                         <div class="mt-6">
                                             <a
-                                                href={`/projects/${company.id}`}
+                                                href={`/projects/${project.id}`}
                                                 class="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300"
                                             >
                                                 Learn more
@@ -222,68 +225,113 @@ const getTagColor = (type: (typeof projects)[number]["type"]) => {
     .scrollbar-hide::-webkit-scrollbar {
         display: none;
     }
+    .company-card {
+        transition:
+            opacity 0.3s ease,
+            transform 0.3s ease;
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
 </style>
 
 <script>
-    // Scroll functionality
-    const scrollContainer = document.getElementById("projects-scroll");
-    const scrollLeftBtn = document.getElementById("scroll-left");
-    const scrollRightBtn = document.getElementById("scroll-right");
+    // Handle both filtering and animations
+    function initializeProjectsSection() {
+        // Scroll functionality
+        const scrollContainer = document.getElementById("projects-scroll");
+        const scrollLeftBtn = document.getElementById("scroll-left");
+        const scrollRightBtn = document.getElementById("scroll-right");
 
-    if (scrollContainer && scrollLeftBtn && scrollRightBtn) {
-        const scroll = (direction: "left" | "right") => {
-            const cardWidth =
-                scrollContainer.querySelector(".company-card")?.offsetWidth ||
-                0;
-            const scrollAmount = direction === "left" ? -cardWidth : cardWidth;
+        if (scrollContainer && scrollLeftBtn && scrollRightBtn) {
+            const scroll = (direction: "left" | "right") => {
+                const firstCard = scrollContainer.querySelector(
+                    ".company-card",
+                ) as HTMLElement;
+                const cardWidth = firstCard?.offsetWidth || 0;
+                const scrollAmount =
+                    direction === "left" ? -cardWidth : cardWidth;
 
-            scrollContainer.scrollBy({
-                left: scrollAmount,
-                behavior: "smooth",
-            });
-        };
+                scrollContainer.scrollBy({
+                    left: scrollAmount,
+                    behavior: "smooth",
+                });
+            };
 
-        scrollLeftBtn.addEventListener("click", () => scroll("left"));
-        scrollRightBtn.addEventListener("click", () => scroll("right"));
-    }
+            scrollLeftBtn.addEventListener("click", () => scroll("left"));
+            scrollRightBtn.addEventListener("click", () => scroll("right"));
 
-    // Filtering functionality
-    const filterButtons = document.querySelectorAll(".filter-btn");
-    const companyCards = document.querySelectorAll(".company-card");
+            // Update button states
+            const updateButtonStates = () => {
+                if (!scrollContainer || !scrollLeftBtn || !scrollRightBtn)
+                    return;
 
-    filterButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            // Update button styles
-            filterButtons.forEach((btn) => {
-                btn.classList.remove("bg-indigo-600", "text-white");
-                btn.classList.add(
+                const isAtStart = scrollContainer.scrollLeft === 0;
+                const isAtEnd =
+                    scrollContainer.scrollLeft + scrollContainer.clientWidth >=
+                    scrollContainer.scrollWidth - 10;
+
+                (scrollLeftBtn as HTMLElement).style.opacity = isAtStart
+                    ? "0.5"
+                    : "1";
+                (scrollRightBtn as HTMLElement).style.opacity = isAtEnd
+                    ? "0.5"
+                    : "1";
+            };
+
+            scrollContainer.addEventListener("scroll", updateButtonStates);
+            window.addEventListener("resize", updateButtonStates);
+            updateButtonStates();
+        }
+
+        // Filtering functionality
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const companyCards = document.querySelectorAll(
+            ".company-card",
+        ) as NodeListOf<HTMLElement>;
+
+        filterButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                // Update button styles
+                filterButtons.forEach((btn) => {
+                    btn.classList.remove("bg-indigo-600", "text-white");
+                    btn.classList.add(
+                        "bg-gray-100",
+                        "dark:bg-gray-800",
+                        "text-gray-600",
+                        "dark:text-gray-300",
+                    );
+                });
+
+                button.classList.remove(
                     "bg-gray-100",
                     "dark:bg-gray-800",
                     "text-gray-600",
                     "dark:text-gray-300",
                 );
-            });
-            button.classList.remove(
-                "bg-gray-100",
-                "dark:bg-gray-800",
-                "text-gray-600",
-                "dark:text-gray-300",
-            );
-            button.classList.add("bg-indigo-600", "text-white");
+                button.classList.add("bg-indigo-600", "text-white");
 
-            const filterType = button.getAttribute("data-filter");
+                const filterType = button.getAttribute("data-filter");
 
-            // Filter projects
-            companyCards.forEach((card) => {
-                if (
-                    filterType === "All" ||
-                    card.getAttribute("data-type") === filterType
-                ) {
-                    card.style.display = "";
-                } else {
-                    card.style.display = "none";
-                }
+                // Simple display toggle without animation
+                companyCards.forEach((card) => {
+                    const show =
+                        filterType === "All" ||
+                        card.getAttribute("data-type") === filterType;
+                    card.style.display = show ? "" : "none";
+                });
             });
         });
-    });
+    }
+
+    // Initialize on page load
+    document.addEventListener("DOMContentLoaded", initializeProjectsSection);
+
+    // Re-initialize after Astro page transitions
+    document.addEventListener("astro:after-swap", initializeProjectsSection);
 </script>
